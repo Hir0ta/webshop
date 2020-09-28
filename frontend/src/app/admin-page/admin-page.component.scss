@@ -1,0 +1,14 @@
+:host {
+	display: block;
+	height: 100%;
+	
+    .grid {
+        display: grid;
+		grid-template-columns: 25rem auto;
+		height: 100%;
+
+        div:nth-child(1) {
+            border-right: 1px solid black;
+        }
+    }
+}

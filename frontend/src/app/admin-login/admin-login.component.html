@@ -1,0 +1,13 @@
+<div class="box">
+	<p class="loginFailed">{{loginFailed}}</p>
+	<div class="container-between">
+		<span>Felhasználónév</span>
+		<input type="text" [(ngModel)]="user_name">
+	</div>
+	<div class="container-between">
+		<span>Jelszó</span>
+		<input type="password" [(ngModel)]="password">
+	</div>
+	<button (click)="login()">Login</button>
+	<p class="text-center" (click)="lostPassword()">Elfelejtettem a jelszavam</p>
+</div>

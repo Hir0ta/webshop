@@ -1,0 +1,46 @@
+{
+	"server": {
+		"schema": "http",
+		"host": "localhost",
+		"origin": "http://localhost:4400",
+		"port": 8080,
+		"bodyLimit": 2000000		
+	},
+	"smtp": {
+		"server": {
+			"host": "",
+			"port": 
+			"secure": false,
+			"requireTLS": false,
+			"tls": false,
+			"ignoreTLS": true,
+			"secureConnection": false,
+			"auth": {
+				"user": "",
+				"pass": ""
+			}
+		},
+		"from": {
+			"address": "",
+			"name": ""
+		}
+	},
+	"urls":
+	{
+		"adminActivationPrefix": "http://localhost:4400/#/admin/change-password?token=",
+		"accountActivationPrefix": "http://localhost:4400/#/public/activate?token=",
+		"resetPasswordPrefix": "http://localhost:4400/#/login/change-password?token=",
+		"adminResetPasswordPrefix": "http://localhost:4400/#/login/change-password?admin=1&token="
+	},
+	"centralDB":
+	{
+		"client": "pg",
+		"connection": {
+			"host": "",
+			"port": ,
+			"user": 
+			"password": "",
+			"database": ""
+		}
+	}
+}

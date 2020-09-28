@@ -1,0 +1,1 @@
+tsc && node server.js start --config test-config.json

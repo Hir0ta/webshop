@@ -1,0 +1,1 @@
+tsc && node server.js db-update --config test-config.json

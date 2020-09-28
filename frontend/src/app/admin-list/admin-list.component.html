@@ -1,0 +1,44 @@
+<button (click)="logOut()">Log out</button>
+<button (click)="newAdminAdd()">Új</button>
+<div><input type="checkbox" [(ngModel)]="showDeleted" (ngModelChange)="refresh()">Töröltek mutatása</div>
+<table>
+	<thead>
+		<tr>
+			<th>Felhasználónév</th>
+			<th>Email</th>
+			<th>Műveletek</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let admin of admins">
+			<td>{{admin.user_name}}</td>
+			<td>{{admin.email}}</td>
+			<td>
+				<div class="container-between">
+					<button (click)="modifyAdmin(admin)">Módosít</button>
+					<button (click)="deleteAdmin(admin)">Töröl</button>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="popup" *ngIf="popup">
+	<div class="box">
+		<p class="text-center">{{failMessage}}</p>
+		<h3 class="text-center">Új felhasználó</h3>
+		<div class="container-between">
+			<span>Felhasználónév</span>
+			<input type="text" [(ngModel)]="items.user_name">
+		</div>
+		<div class="container-between">
+			<span>Email</span>
+			<input type="text" [(ngModel)]="items.email">
+		</div>
+		<div class="container-between">
+			<button (click)="saveAdmin()">Mentés</button>
+			<button (click)="cancel()">Mégse</button>
+		</div>
+
+	</div>
+</div>
