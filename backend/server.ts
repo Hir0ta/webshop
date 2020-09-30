@@ -96,7 +96,7 @@ async function startServer()
 	let bodyParser = require('body-parser');
 	let bodyLimit = 50 * 1024;
 	let nodemailer = require('nodemailer');
-	let transporter = nodemailer.createTransport(
+	let mailer = nodemailer.createTransport(
 		{
 			host: config['smtp']['server']['host'],
 			port: config['smtp']['server']['port'],
@@ -140,7 +140,15 @@ async function startServer()
 	let dbConnection = require('knex')(config['centralDB']);
 	console.log('server started');
 
-	addRequestHandler(dbConnection, app, transporter, config['urls']);
+	let args = 
+	{
+		dbConnection: dbConnection,
+		app: app,
+		mailer: mailer,
+		config: config['urls']
+	}
+
+	addRequestHandler(args);
 }
 
 async function stopServer()
