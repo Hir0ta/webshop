@@ -3,7 +3,7 @@ import { uuid } from 'uuidv4';
 export function adminAuthRequest(args)
 {
 
-	args.args.app.post('/addAdmin', async function (req, res)
+	args.app.post('/addAdmin', async function (req, res)
 	{
 		//console.log(req.body);
 		if (!req.body.jtoken) 
@@ -295,6 +295,6 @@ export function adminAuthRequest(args)
 
 		let del = await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update({ 'deleted': 1 });
 		res.send(true);
-	})
+	});
 
 }
