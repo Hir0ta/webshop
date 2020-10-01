@@ -1,0 +1,62 @@
+<button (click)="newTopLevel()">Új főkategória</button>
+
+<ul>
+	<ng-container>
+		<li *ngFor="let topLevel of topLevels">
+			<div *ngIf="topLevel.deleted == deleted" class="container-between">
+				<div>{{topLevel.name}}</div>
+				<div>
+					<button class="green" (click)="newMidLevel(topLevel.ID)" title="Új alkategória">➕</button>
+					<button class="yellow" (click)="modifyLevel('top_level',topLevel)" title="Szerkeszt">✏️</button>
+					<button class="red" (click)="deleteLevel('top_level',topLevel)" title="Töröl">🗑️</button>
+				</div>
+			</div>
+			<ul>
+				<ng-container *ngFor="let midLevel of midLevels">
+					<li *ngIf="midLevel.parent == topLevel.ID">
+						<div *ngIf="midLevel.deleted == deleted" class="container-between">
+							<div>{{midLevel.name}}</div>
+							<div>
+								<button class="green" (click)="newBottomLevel(midLevel.ID)" title="Új alkategória">➕</button>
+								<button class="yellow" (click)="modifyLevel('mid_level',midLevel)" title="Szerkeszt">✏️</button>
+								<button class="red" (click)="deleteLevel('mid_level',midLevel)" title="Töröl">🗑️</button>
+							</div>
+						</div>
+						<ul>
+							<ng-container *ngFor="let bottomLevel of bottomLevels">
+								<li *ngIf="bottomLevel.parent == midLevel.ID">
+									<div *ngIf="bottomLevel.deleted == deleted" class="container-between">
+										<div>{{bottomLevel.name}}</div>
+										<div>
+											<button class="yellow" (click)="modifyLevel('bottom_level',bottomLevel)" title="Szerkeszt">✏️</button>
+											<button class="red" (click)="deleteLevel('bottom_level',bottomLevel)" title="Töröl">🗑️</button>
+										</div>
+									</div>
+								</li>
+							</ng-container>
+						</ul>
+					</li>
+				</ng-container>
+			</ul>
+		</li>
+	</ng-container>
+</ul>
+
+
+<div class="popup" *ngIf="popup">
+	<div class="box">
+		<h3 class="text-center">Új kategória</h3>
+		<div class="container-between">
+			<span>Kategória neve</span>
+			<input type="text" [(ngModel)]="items.name">
+		</div>
+		<div class="container-between">
+			<button *ngIf="topLevel" (click)="saveTopLevel()">Mentés</button>
+			<button *ngIf="midLevel" (click)="saveMidLevel()">Mentés</button>
+			<button *ngIf="bottomLevel" (click)="saveBottomLevel()">Mentés</button>
+			<button *ngIf="modifyPopup" (click)="modify()">Mentés</button>
+			<button (click)="cancel()">Mégse</button>
+		</div>
+
+	</div>
+</div>

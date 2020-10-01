@@ -1,21 +1,33 @@
 html {
-	height: 100%;
-	box-sizing: border-box;
-	font-size: 10px;
+    height: 100%;
+    box-sizing: border-box;
+    font-size: 10px;
 
-	body {
-		height: 100%;
-		margin: 0;
-		font-size: 1.6rem;
-	}
+    body {
+        height: 100%;
+        margin: 0;
+        font-size: 1.6rem;
+    }
 }
 
-.container-between
-{
-	display: flex;
-	justify-content: space-between;
+.container-between {
+    display: flex;
+    justify-content: space-between;
 }
 
 .text-center {
-	text-align: center;
+    text-align: center;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.red {
+    background-color: red;
+    ;
 }

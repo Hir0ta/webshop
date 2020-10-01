@@ -12,6 +12,8 @@ import { AdminChangePasswordSuccessComponent } from './admin-change-password-suc
 import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminListComponent } from './admin-list/admin-list.component';
 
+import { CategoryListComponent } from './category-list/category-list.component';
+
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetPasswordSuccessComponent } from './reset-password-success/reset-password-success.component';
@@ -53,18 +55,17 @@ const routes: Routes =
 		children:
 			[
 				{path: 'login', component: AdminLoginComponent},
-				{
-					path: 'admin-page', component: AdminPageComponent,
-					children:
-					[
-						{
-							path:'admin-list',component: AdminListComponent
-						}
-					]
-				},
 				{path: 'password-request', component: AdminRequestPasswordComponent},
 				{path: 'change-password', component: AdminChangePasswordComponent},
-				{path: 'change-password-success', component: AdminChangePasswordSuccessComponent}
+				{path: 'change-password-success', component: AdminChangePasswordSuccessComponent},
+				{path: 'admin-page', component: AdminPageComponent,
+					children:
+					[
+						{path:'admin-list', component: AdminListComponent},
+						{path: 'categories', component: CategoryListComponent}
+					]
+				}
+
 			]
 	}
 ];
