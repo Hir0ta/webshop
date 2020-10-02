@@ -44,7 +44,7 @@ export class HttpService
 		{
 			console.log(e)
 		}
-		console.log(result);
+		//console.log(result);
 		return result;
 	}
 }
