@@ -63,14 +63,16 @@ export function adminAuthRequest(args)
 				jtoken: jtoken,
 			}
 		);
-		args.sendMail(
+		
+		
+		args.mailer.sendMail(
 			{
 				from: "noreply@webshop.com",
 				to: req.body.email,
 				subject: "Admin felhasználó jelszó regisztráció",
 				html:
 					"<p>Önt felvették a webshop adminjai közé. Az alábbi linken tud jelszót beállítani magának:</p>" +
-					"<a>" + args.urls.adminActivationPrefix + jtoken + "</a>"
+					"<a>" + args.config.urls.adminActivationPrefix + jtoken + "</a>"
 			}
 		);
 		res.send(true);
@@ -106,15 +108,17 @@ export function adminAuthRequest(args)
 		);
 		//console.log(user.length);
 
-		if (user.length != 0) 
+		console.log(user.length);
+
+		if (user.length != 1) 
 		{
-			//console.log('false');
+			console.log('false');
 			res.send(false);
 			return;
 		}
 		else
 		{
-			//console.log('true');
+			console.log('true');
 			await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update(
 				{
 					user_name: req.body.user_name,

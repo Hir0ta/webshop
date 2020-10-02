@@ -12,14 +12,24 @@ export async function createTable(dbConnection)
 		table.integer('deleted')
 	});
 
-	let deafaultAdmin = await dbConnection('admin_users').insert(
+	let defaultUser = await dbConnection('webshop').select().from('admin_users').where(
 		{
 			user_name: 'admin',
-			password: sha256('admin'),
-			activated: 1,
 			deleted: 0
 		}
-	);
+	)
+
+	if(defaultUser.length == 0)
+	{
+		let deafaultAdmin = await dbConnection('admin_users').insert(
+			{
+				user_name: 'admin',
+				password: sha256('admin'),
+				activated: 1,
+				deleted: 0
+			}
+		);
+	}
 
 	let tokenTable = await dbConnection.schema.createTableIfNotExists('token_table', function (table)
 	{

@@ -1,6 +1,6 @@
 export function categoryRequests(args)
 {
-	args.app.post('/addTopLevel', async function (req, res)
+	args.app.post('/addLevel', async function (req, res)
 	{
 		if (!req.body.jtoken) 
 		{
@@ -9,50 +9,25 @@ export function categoryRequests(args)
 		}
 		else
 		{
-			await args.dbConnection('top_level').insert(
-				{
-					name: req.body.name,
-					deleted: 0
-				}
-			);
-		}
-	});
-
-	args.app.post('/addMidLevel', async function (req, res)
-	{
-		if (!req.body.jtoken) 
-		{
-			res.send("Haha, it won't work! :P");
-			return;
-		}
-		else
-		{
-			await args.dbConnection('mid_level').insert(
-				{
-					name: req.body.name,
-					parent: req.body.parent,
-					deleted: 0
-				}
-			);
-		}
-	});
-
-	args.app.post('/addBottomLevel', async function (req, res)
-	{
-		if (!req.body.jtoken) 
-		{
-			res.send("Haha, it won't work! :P");
-			return;
-		}
-		else
-		{
-			await args.dbConnection('bottom_level').insert(
-				{
-					name: req.body.name,
-					parent: req.body.parent,
-					deleted: 0
-				}
-			);
+			if (!req.body.parent)
+			{
+				await args.dbConnection(req.body.level).insert(
+					{
+						name: req.body.name,
+						deleted: 0
+					}
+				);
+			}
+			else
+			{
+				await args.dbConnection(req.body.level).insert(
+					{
+						name: req.body.name,
+						parent: req.body.parent,
+						deleted: 0
+					}
+				);
+			}
 		}
 	});
 
@@ -73,7 +48,7 @@ export function categoryRequests(args)
 		res.send(readAll);
 	});
 
-	
+
 	args.app.post('/modifyLevel', async function (req, res)
 	{
 		let readAll;

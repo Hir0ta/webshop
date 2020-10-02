@@ -96,7 +96,7 @@ async function startServer()
 	let bodyParser = require('body-parser');
 	let bodyLimit = 50 * 1024;
 	let nodemailer = require('nodemailer');
-	let mailer = nodemailer.createTransport(
+	let transporter = nodemailer.createTransport(
 		{
 			host: config['smtp']['server']['host'],
 			port: config['smtp']['server']['port'],
@@ -144,8 +144,8 @@ async function startServer()
 	{
 		dbConnection: dbConnection,
 		app: app,
-		mailer: mailer,
-		config: config['urls']
+		mailer: transporter,
+		config: config
 	}
 
 	addRequestHandler(args);

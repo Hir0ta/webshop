@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpService } from '../services/httpService.service';
 
 @Component({
 	selector: 'category-list',
@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CategoryListComponent implements OnInit
 {
 
-	constructor(private http: HttpClient) { }
+	constructor(private httpService: HttpService) { }
 
 	ngOnInit()
 	{
@@ -28,37 +28,49 @@ export class CategoryListComponent implements OnInit
 	bottomLevels;
 	deleted = 0;
 
+	saveLevel()
+	{
+		if(!this.modifyPopup)
+		{
+			this.httpService.callFunction('addLevel',
+			{
+				jtoken: localStorage.getItem('adminJToken'),
+				level: this.items.level,
+				name: this.items.name,
+				parent: this.items.parent
+			})
+		}
+		else
+		{
+			console.log(this.items);
+			this.httpService.callFunction('modifyLevel',
+			{
+				jtoken: localStorage.getItem('adminJToken'),
+				id: this.items.id,
+				level: this.items.level,
+				name: this.items.name,
+				parent: this.items.parent
+			})
+		}
+
+		this.popup = false;
+		this.topLevel = false;
+		this.midLevel = false;
+		this.bottomLevel = false;
+		this.modifyPopup = false;
+		this.items = {};
+		this.refresh();
+	}
+
 	newTopLevel()
 	{
 		this.popup = true;
 		this.topLevel = true;
 		this.items =
 		{
+			level: 'top_level',
 			name: ''
 		}
-	}
-
-	async saveTopLevel()
-	{
-		this.http.post('http://localhost:8080/addTopLevel',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-				name: this.items.name,
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
-
-		).toPromise();
-		this.popup = false;
-		this.topLevel = false;
-		this.items = {};
-		this.refresh();
 	}
 
 	newMidLevel(parent)
@@ -68,32 +80,9 @@ export class CategoryListComponent implements OnInit
 		this.items =
 		{
 			name: '',
+			level: 'mid_level',
 			parent: parent
 		}
-	}
-
-	saveMidLevel()
-	{
-		this.http.post('http://localhost:8080/addMidLevel',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-				name: this.items.name,
-				parent: this.items.parent
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
-
-		).toPromise();
-		this.popup = false;
-		this.midLevel = false;
-		this.items = {};
-		this.refresh();
 	}
 
 	newBottomLevel(parent)
@@ -103,33 +92,11 @@ export class CategoryListComponent implements OnInit
 		this.items =
 		{
 			name: '',
+			level: 'bottom_level',
 			parent: parent
 		}
 	}
 
-	saveBottomLevel()
-	{
-		this.http.post('http://localhost:8080/addBottomLevel',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-				name: this.items.name,
-				parent: this.items.parent
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
-
-		).toPromise();
-		this.popup = false;
-		this.midLevel = false;
-		this.items = {};
-		this.refresh();
-	}
 
 	modifyLevel(level,items)
 	{
@@ -146,22 +113,13 @@ export class CategoryListComponent implements OnInit
 
 	async modify()
 	{
-		console.log(this.items);
-		await this.http.post('http://localhost:8080/modifyLevel',
+		this.httpService.callFunction('modifyLevel',
 		{
 			jtoken: localStorage.getItem('adminJToken'),
 			level: this.items.level,
 			id: this.items.id,
 			name: this.items.name
-		},
-		{
-			headers: new HttpHeaders(
-				{
-					'Content-Type': 'application/json',
-					'credentials': 'same-origin'
-				}),
-			withCredentials: true,
-		}).toPromise();
+		});
 
 		this.popup = false;
 		this.modifyPopup = false;
@@ -173,74 +131,37 @@ export class CategoryListComponent implements OnInit
 	async deleteLevel(level, items)
 	{
 		alert('Biztos benne?');
-		await this.http.post('http://localhost:8080/deleteLevel',
+		this.httpService.callFunction('deleteLevel',
 		{
 			jtoken: localStorage.getItem('adminJToken'),
 			level: level,
 			id: items.ID,
 			name: items.name
-		},
-		{
-			headers: new HttpHeaders(
-				{
-					'Content-Type': 'application/json',
-					'credentials': 'same-origin'
-				}),
-			withCredentials: true,
-		}).toPromise();
+		});
 
 		this.refresh();
 	}
 
 	async refresh()
 	{
-		this.topLevels = await this.http.post('http://localhost:8080/listLevel',
-			{
-				level: 'top_level',
-				jtoken: localStorage.getItem('adminJToken'),
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
+		this.topLevels = await this.httpService.callFunction('listLevel',
+		{
+			level: 'top_level',
+			jtoken: localStorage.getItem('adminJToken'),
+		});
 
-		).toPromise();
 
-		this.midLevels = await this.http.post('http://localhost:8080/listLevel',
-			{
-				level: 'mid_level',
-				jtoken: localStorage.getItem('adminJToken'),
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
+		this.midLevels = await this.httpService.callFunction('listLevel',
+		{
+			level: 'mid_level',
+			jtoken: localStorage.getItem('adminJToken'),
+		});
 
-		).toPromise();
-
-		this.bottomLevels = await this.http.post('http://localhost:8080/listLevel',
-			{
-				level: 'bottom_level',
-				jtoken: localStorage.getItem('adminJToken'),
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
-
-		).toPromise();
+		this.bottomLevels = await this.httpService.callFunction('listLevel',
+		{
+			level: 'bottom_level',
+			jtoken: localStorage.getItem('adminJToken'),
+		});
 
 	}
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpService } from '../services/httpService.service';
 import { Router } from '@angular/router';
 import sha256 from 'crypto-js/sha256';
 
@@ -23,7 +24,7 @@ export class AdminListComponent implements OnInit
 	admins: any;
 	result: any;
 
-	constructor(private http: HttpClient, private router: Router) { }
+	constructor(private httpService: HttpService, private http: HttpClient, private router: Router) { }
 
 	ngOnInit()
 	{
@@ -33,43 +34,24 @@ export class AdminListComponent implements OnInit
 	async refresh()
 	{
 
-		this.admins = await this.http.post('http://localhost:8080/listAdmins',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-				deleted: this.showDeleted,
-				order: 'email',
-				dir: 'desc'
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true
-			}
-
-		).toPromise();
-
-		console.log(this.admins);
+		this.admins = await 
+		
+		this.httpService.callFunction('listAdmins',
+		{
+			jtoken: localStorage.getItem('adminJToken'),
+			deleted: this.showDeleted,
+			order: 'email',
+			dir: 'desc'
+		})
 	}
 
 	async logOut()
 	{
-		await this.http.post('http://localhost:8080/destroyJToken',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true
-			}
+		this.httpService.callFunction('destroyJToken',
+		{
+			jtoken: localStorage.getItem('adminJToken'),
+		})
 
-		).toPromise();
 		localStorage.setItem('adminLogedIn', 'false');
 		this.router.navigate(['/admin/login']);
 	}
@@ -89,21 +71,12 @@ export class AdminListComponent implements OnInit
 
 	deleteAdmin(item)
 	{
-		this.http.post('http://localhost:8080/deleteAdmin',
-			{
-				jtoken: localStorage.getItem('adminJToken'),
-				id: item.adminID,
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
-			}
-
-		).toPromise();
+		this.httpService.callFunction('deleteAdmin',
+		{
+			jtoken: localStorage.getItem('adminJToken'),
+			id: item.adminID,
+		})
+	
 		this.refresh();
 	}
 
@@ -131,6 +104,7 @@ export class AdminListComponent implements OnInit
 				}
 
 			).toPromise().then( result => { 
+				console.log(result);
 
 				if(!result) 
 				{

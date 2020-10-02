@@ -51,10 +51,10 @@
 			<input type="text" [(ngModel)]="items.name">
 		</div>
 		<div class="container-between">
-			<button *ngIf="topLevel" (click)="saveTopLevel()">Mentés</button>
-			<button *ngIf="midLevel" (click)="saveMidLevel()">Mentés</button>
+			<button (click)="saveLevel()">Mentés</button>
+			<!--<button *ngIf="midLevel" (click)="saveMidLevel()">Mentés</button>
 			<button *ngIf="bottomLevel" (click)="saveBottomLevel()">Mentés</button>
-			<button *ngIf="modifyPopup" (click)="modify()">Mentés</button>
+			<button *ngIf="modifyPopup" (click)="modify()">Mentés</button>-->
 			<button (click)="cancel()">Mégse</button>
 		</div>
 
