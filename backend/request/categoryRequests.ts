@@ -33,7 +33,25 @@ export function categoryRequests(args)
 
 	args.app.post('/listLevel', async function (req, res)
 	{
-		let readAll;
+		let result;
+
+		let conditions
+
+		if(req.body.parent)
+		{
+			conditions = 
+			{
+				parent: req.body.parent,
+				deleted: 0
+			}
+		}
+		else
+		{
+			conditions = 
+			{
+				deleted: 0
+			}
+		}
 
 		if (!req.body.jtoken) 
 		{
@@ -42,10 +60,10 @@ export function categoryRequests(args)
 		else
 		{
 
-			readAll = await args.dbConnection('webshop').select().from(req.body.level).where({ deleted: '0' });
+			result = await args.dbConnection('webshop').select().from(req.body.level).where(conditions);
 		}
 
-		res.send(readAll);
+		res.send(result);
 	});
 
 

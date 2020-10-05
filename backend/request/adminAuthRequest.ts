@@ -297,7 +297,10 @@ export function adminAuthRequest(args)
 			if (token.length != 1) return;
 		}
 
-		let del = await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update({ 'deleted': 1 });
+		if(req.body.id == 1) {res.send(false); return};
+
+		await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update({ 'deleted': 1 });
+		await args.dbConnection.where({'adminID': req.body.id}).del();
 		res.send(true);
 	});
 
