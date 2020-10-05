@@ -108,17 +108,17 @@ export function adminAuthRequest(args)
 		);
 		//console.log(user.length);
 
-		console.log(user.length);
+		//console.log(user.length);
 
 		if (user.length != 1) 
 		{
-			console.log('false');
+			//console.log('false');
 			res.send(false);
 			return;
 		}
 		else
 		{
-			console.log('true');
+			//console.log('true');
 			await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update(
 				{
 					user_name: req.body.user_name,
