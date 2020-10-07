@@ -6,25 +6,25 @@
 			<div *ngIf="topLevel.deleted == deleted" class="container-between">
 				<div>{{topLevel.name}}</div>
 				<div>
-					<button class="green" (click)="newMidLevel(topLevel.ID)" title="Új alkategória">➕</button>
+					<button class="green" (click)="newMidLevel(topLevel.id)" title="Új alkategória">➕</button>
 					<button class="yellow" (click)="modifyLevel('top_level',topLevel)" title="Szerkeszt">✏️</button>
 					<button class="red" (click)="deleteLevel('top_level',topLevel)" title="Töröl">🗑️</button>
 				</div>
 			</div>
 			<ul>
 				<ng-container *ngFor="let midLevel of midLevels">
-					<li *ngIf="midLevel.parent == topLevel.ID">
+					<li *ngIf="midLevel.parent == topLevel.id">
 						<div *ngIf="midLevel.deleted == deleted" class="container-between">
 							<div>{{midLevel.name}}</div>
 							<div>
-								<button class="green" (click)="newBottomLevel(midLevel.ID)" title="Új alkategória">➕</button>
+								<button class="green" (click)="newBottomLevel(midLevel.id)" title="Új alkategória">➕</button>
 								<button class="yellow" (click)="modifyLevel('mid_level',midLevel)" title="Szerkeszt">✏️</button>
 								<button class="red" (click)="deleteLevel('mid_level',midLevel)" title="Töröl">🗑️</button>
 							</div>
 						</div>
 						<ul>
 							<ng-container *ngFor="let bottomLevel of bottomLevels">
-								<li *ngIf="bottomLevel.parent == midLevel.ID">
+								<li *ngIf="bottomLevel.parent == midLevel.id">
 									<div *ngIf="bottomLevel.deleted == deleted" class="container-between">
 										<div>{{bottomLevel.name}}</div>
 										<div>

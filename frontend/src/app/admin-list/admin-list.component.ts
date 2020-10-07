@@ -13,7 +13,7 @@ export class AdminListComponent implements OnInit
 {
 
 	items = {
-		adminID: undefined,
+		id: undefined,
 		user_name: '',
 		email: '',
 	}
@@ -66,7 +66,7 @@ export class AdminListComponent implements OnInit
 	{
 		this.popup = true;
 		this.items = JSON.parse(JSON.stringify(item));
-		console.log(this.items);
+		//console.log(this.items);
 	}
 
 	async deleteAdmin(item)
@@ -74,12 +74,16 @@ export class AdminListComponent implements OnInit
 		let result = await this.httpService.callFunction('deleteAdmin',
 			{
 				jtoken: localStorage.getItem('adminJToken'),
-				id: item.adminID,
+				id: item.id,
 			});
 
-			console.log(result);
+		//console.log(result);
 
-		if (!this.result) alert('Ez a felhasználó nem törölhető!');
+		if (this.result === false) 
+		{
+			alert('Ez a felhasználó nem törölhető!');
+			return;
+		};
 
 		this.refresh();
 	}
@@ -88,7 +92,7 @@ export class AdminListComponent implements OnInit
 	{
 		let result: any;
 
-		if (this.items.adminID === undefined)
+		if (this.items.id === undefined)
 		{
 			result = await this.httpService.callFunction('addAdmin',
 				{
@@ -115,7 +119,7 @@ export class AdminListComponent implements OnInit
 			result = await this.httpService.callFunction('modifyAdmin',
 				{
 					jtoken: localStorage.getItem('adminJToken'),
-					id: this.items.adminID,
+					id: this.items.id,
 					user_name: this.items.user_name,
 					email: this.items.email,
 				});

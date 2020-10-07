@@ -37,9 +37,9 @@ export function categoryRequests(args)
 
 		let conditions
 
-		if(req.body.parent)
+		if (req.body.parent)
 		{
-			conditions = 
+			conditions =
 			{
 				parent: req.body.parent,
 				deleted: 0
@@ -47,7 +47,7 @@ export function categoryRequests(args)
 		}
 		else
 		{
-			conditions = 
+			conditions =
 			{
 				deleted: 0
 			}
@@ -59,11 +59,21 @@ export function categoryRequests(args)
 		}
 		else
 		{
-
 			result = await args.dbConnection('webshop').select().from(req.body.level).where(conditions);
 		}
 
 		res.send(result);
+	});
+
+	args.app.post('/listLevels', async function (req, res)
+	{
+		let result = await args.dbConnection('').select(args.dbConnection.raw(
+			'top.id AS top, mid.id AS mid ,bottom.id AS bottom ' +
+			'FROM top_level top ' +
+			'LEFT JOIN mid_level mid ON top.id = mid.parent ' +
+			'LEFT JOIN bottom_level bottom ON mid.id = bottom.parent WHERE bottom.id = ' + req.body.bottom 
+		));
+		res.send(result[0]);
 	});
 
 
@@ -78,7 +88,7 @@ export function categoryRequests(args)
 		else
 		{
 
-			await args.dbConnection(req.body.level).where({ 'ID': req.body.id }).update(
+			await args.dbConnection(req.body.level).where({ id: req.body.id }).update(
 				{
 					name: req.body.name,
 				}
@@ -100,7 +110,7 @@ export function categoryRequests(args)
 		else
 		{
 
-			await args.dbConnection(req.body.level).where({ 'ID': req.body.id }).update(
+			await args.dbConnection(req.body.level).where({ id: req.body.id }).update(
 				{
 					deleted: '1',
 				}

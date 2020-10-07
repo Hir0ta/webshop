@@ -48,18 +48,18 @@ export function adminAuthRequest(args)
 			}
 		);
 
-		let adminID = await args.dbConnection('webshop').select('adminID').from('admin_users').where(
+		let admin_id = await args.dbConnection('webshop').select('id').from('admin_users').where(
 			{
 				user_name: req.body.user_name,
 				deleted: 0
 			}
 		);
-		adminID = adminID[0].adminID;
+		admin_id = admin_id[0].id;
 
 		let jtoken = uuid();
 		await args.dbConnection('token_table').insert(
 			{
-				adminID: adminID,
+				admin_id: admin_id,
 				jtoken: jtoken,
 			}
 		);
@@ -119,7 +119,7 @@ export function adminAuthRequest(args)
 		else
 		{
 			//console.log('true');
-			await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update(
+			await args.dbConnection('admin_users').where({ id: req.body.id }).update(
 				{
 					user_name: req.body.user_name,
 					email: req.body.email
@@ -145,7 +145,7 @@ export function adminAuthRequest(args)
 		);
 		if (user.length == 1)
 		{
-			await args.dbConnection('admin_users').where({ adminID: user[0].adminID }).update(
+			await args.dbConnection('admin_users').where({ id: user[0].admin_id }).update(
 				{
 					password: req.body.password,
 					activated: 1
@@ -174,7 +174,7 @@ export function adminAuthRequest(args)
 		let jtoken = uuid();
 		await args.dbConnection('token_table').insert(
 			{
-				adminID: user[0].adminID,
+				admin_id: user[0].id,
 				jtoken: jtoken
 			}
 		)
@@ -208,7 +208,7 @@ export function adminAuthRequest(args)
 			user[0].jtoken = uuid();
 			let add = await args.dbConnection('token_table').insert(
 				{
-					adminID: user[0].adminID,
+					admin_id: user[0].id,
 					jtoken: user[0].jtoken,
 				}
 			);
@@ -271,7 +271,7 @@ export function adminAuthRequest(args)
 
 		if (req.body.deleted === false)
 		{
-			readAll = await args.dbConnection('webshop').select('adminID', 'user_name', 'email').from('admin_users').where({ deleted: '0' }).orderBy(req.body.order, req.body.dir);
+			readAll = await args.dbConnection('webshop').select('id', 'user_name', 'email').from('admin_users').where({ deleted: '0' }).orderBy(req.body.order, req.body.dir);
 		}
 		else if (req.body.deleted == true)
 		{
@@ -299,8 +299,8 @@ export function adminAuthRequest(args)
 
 		if(req.body.id == 1) {res.send(false); return};
 
-		await args.dbConnection('admin_users').where({ 'adminID': req.body.id }).update({ 'deleted': 1 });
-		await args.dbConnection.where({'adminID': req.body.id}).del();
+		await args.dbConnection('admin_users').where({ 'id': req.body.id }).update({ 'deleted': 1 });
+		await args.dbConnection('token_table').where({'admin_id': req.body.id}).del();
 		res.send(true);
 	});
 

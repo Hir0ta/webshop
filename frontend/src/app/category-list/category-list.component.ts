@@ -105,7 +105,7 @@ export class CategoryListComponent implements OnInit
 		this.items =
 		{
 			level: level,
-			id: items.ID,
+			id: items.id,
 			name: items.name
 		}
 
@@ -135,7 +135,7 @@ export class CategoryListComponent implements OnInit
 		{
 			jtoken: localStorage.getItem('adminJToken'),
 			level: level,
-			id: items.ID,
+			id: items.id,
 			name: items.name
 		});
 

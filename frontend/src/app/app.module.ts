@@ -20,6 +20,7 @@ import { AdminChangePasswordComponent } from './admin-change-password/admin-chan
 import { AdminChangePasswordSuccessComponent } from './admin-change-password-success/admin-change-password-success.component';
 import { AdminRequestPasswordComponent } from './admin-request-password/admin-request-password.component';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { ProductListComponent } from './product-list/product-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
     AdminChangePasswordComponent,
     AdminChangePasswordSuccessComponent,
     AdminRequestPasswordComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    ProductListComponent
   ],
   imports: [
     BrowserModule,
