@@ -22,10 +22,11 @@ export class HttpService
 		)
 	}
 
-	async callFunction(functionName: string, args?: Object)
+	async callFunction(functionName: string, params?: Object)
 	{
 
 		let result: any;
+		let args = Object.assign({jtoken: localStorage.getItem('adminJToken')}, params)
 		try
 		{
 			result = await this.http.post(this.config.server.url + '/' + functionName, args,
