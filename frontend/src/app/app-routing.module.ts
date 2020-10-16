@@ -13,6 +13,7 @@ import { AdminPageComponent } from './admin-page/admin-page.component';
 import { AdminListComponent } from './admin-list/admin-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ProductListComponent } from './product-list/product-list.component';
+import { FilterListComponent } from './filter-list/filter-list.component';
 
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
@@ -63,7 +64,9 @@ const routes: Routes =
 					[
 						{path:'admin-list', component: AdminListComponent},
 						{path: 'categories', component: CategoryListComponent},
+						{path: 'filters', component: FilterListComponent},
 						{path: 'products', component: ProductListComponent}
+						
 					]
 				}
 

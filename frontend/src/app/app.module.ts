@@ -21,6 +21,7 @@ import { AdminChangePasswordSuccessComponent } from './admin-change-password-suc
 import { AdminRequestPasswordComponent } from './admin-request-password/admin-request-password.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ProductListComponent } from './product-list/product-list.component';
+import { FilterListComponent } from './filter-list/filter-list.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ProductListComponent } from './product-list/product-list.component';
     AdminChangePasswordSuccessComponent,
     AdminRequestPasswordComponent,
     CategoryListComponent,
-    ProductListComponent
+    ProductListComponent,
+    FilterListComponent
   ],
   imports: [
     BrowserModule,

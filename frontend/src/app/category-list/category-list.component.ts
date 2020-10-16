@@ -26,32 +26,36 @@ export class CategoryListComponent implements OnInit
 	topLevels;
 	midLevels;
 	bottomLevels;
+	filters = [];
 	deleted = 0;
 
 	saveLevel()
 	{
-		if(!this.modifyPopup)
+		let params;
+
+		if (!this.modifyPopup)
 		{
-			this.httpService.callFunction('addLevel',
+			params =
 			{
-				jtoken: localStorage.getItem('adminJToken'),
 				level: this.items.level,
 				name: this.items.name,
-				parent: this.items.parent
-			})
+				parent: this.items.parent,
+				filters: this.filters
+			}
 		}
-		else
+		else 
 		{
-			console.log(this.items);
-			this.httpService.callFunction('modifyLevel',
+			params =
 			{
-				jtoken: localStorage.getItem('adminJToken'),
 				id: this.items.id,
 				level: this.items.level,
 				name: this.items.name,
-				parent: this.items.parent
-			})
-		}
+				parent: this.items.parent,
+				filters: this.filters
+			}
+		};
+
+		this.httpService.callFunction('addLevel', params);
 
 		this.popup = false;
 		this.topLevel = false;
@@ -98,7 +102,7 @@ export class CategoryListComponent implements OnInit
 	}
 
 
-	modifyLevel(level,items)
+	modifyLevel(level, items)
 	{
 		this.popup = true;
 		this.modifyPopup = true;
@@ -114,12 +118,12 @@ export class CategoryListComponent implements OnInit
 	async modify()
 	{
 		this.httpService.callFunction('modifyLevel',
-		{
-			jtoken: localStorage.getItem('adminJToken'),
-			level: this.items.level,
-			id: this.items.id,
-			name: this.items.name
-		});
+			{
+
+				level: this.items.level,
+				id: this.items.id,
+				name: this.items.name
+			});
 
 		this.popup = false;
 		this.modifyPopup = false;
@@ -130,39 +134,44 @@ export class CategoryListComponent implements OnInit
 
 	async deleteLevel(level, items)
 	{
-		alert('Biztos benne?');
-		this.httpService.callFunction('deleteLevel',
+		let confirmed = confirm('Biztos benne?');
+		if (confirmed)
 		{
-			jtoken: localStorage.getItem('adminJToken'),
-			level: level,
-			id: items.id,
-			name: items.name
-		});
+			this.httpService.callFunction('deleteLevel',
+				{
 
-		this.refresh();
+					level: level,
+					id: items.id,
+					name: items.name
+				});
+
+			this.refresh();
+		}
+		else
+		{
+			return
+		}
+
 	}
 
 	async refresh()
 	{
 		this.topLevels = await this.httpService.callFunction('listLevel',
-		{
-			level: 'top_level',
-			jtoken: localStorage.getItem('adminJToken'),
-		});
+			{
+				level: 'top_level',
+			});
 
 
 		this.midLevels = await this.httpService.callFunction('listLevel',
-		{
-			level: 'mid_level',
-			jtoken: localStorage.getItem('adminJToken'),
-		});
+			{
+				level: 'mid_level',
+			});
 
 		this.bottomLevels = await this.httpService.callFunction('listLevel',
-		{
-			level: 'bottom_level',
-			jtoken: localStorage.getItem('adminJToken'),
-		});
+			{
+				level: 'bottom_level',
 
+			});
 	}
 
 	cancel()
@@ -173,6 +182,11 @@ export class CategoryListComponent implements OnInit
 		this.bottomLevel = false;
 		this.modifyPopup = false;
 		this.items = {};
+	}
+
+	trackByFn(index: any, item: any)
+	{
+		return index;
 	}
 
 }

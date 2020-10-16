@@ -38,7 +38,7 @@ export class AdminListComponent implements OnInit
 
 			this.httpService.callFunction('listAdmins',
 				{
-					jtoken: localStorage.getItem('adminJToken'),
+					
 					deleted: this.showDeleted,
 					order: 'email',
 					dir: 'desc'
@@ -49,7 +49,7 @@ export class AdminListComponent implements OnInit
 	{
 		this.httpService.callFunction('destroyJToken',
 			{
-				jtoken: localStorage.getItem('adminJToken'),
+				
 			})
 
 		localStorage.setItem('adminLogedIn', 'false');
@@ -73,7 +73,7 @@ export class AdminListComponent implements OnInit
 	{
 		let result = await this.httpService.callFunction('deleteAdmin',
 			{
-				jtoken: localStorage.getItem('adminJToken'),
+				
 				id: item.id,
 			});
 
@@ -96,7 +96,7 @@ export class AdminListComponent implements OnInit
 		{
 			result = await this.httpService.callFunction('addAdmin',
 				{
-					jtoken: localStorage.getItem('adminJToken'),
+					
 					user_name: this.items.user_name,
 					email: this.items.email,
 				});
@@ -118,7 +118,7 @@ export class AdminListComponent implements OnInit
 		{
 			result = await this.httpService.callFunction('modifyAdmin',
 				{
-					jtoken: localStorage.getItem('adminJToken'),
+					
 					id: this.items.id,
 					user_name: this.items.user_name,
 					email: this.items.email,

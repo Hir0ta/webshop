@@ -17,9 +17,12 @@
 						<div *ngIf="midLevel.deleted == deleted" class="container-between">
 							<div>{{midLevel.name}}</div>
 							<div>
-								<button class="green" (click)="newBottomLevel(midLevel.id)" title="Új alkategória">➕</button>
-								<button class="yellow" (click)="modifyLevel('mid_level',midLevel)" title="Szerkeszt">✏️</button>
-								<button class="red" (click)="deleteLevel('mid_level',midLevel)" title="Töröl">🗑️</button>
+								<button class="green" (click)="newBottomLevel(midLevel.id)"
+									title="Új alkategória">➕</button>
+								<button class="yellow" (click)="modifyLevel('mid_level',midLevel)"
+									title="Szerkeszt">✏️</button>
+								<button class="red" (click)="deleteLevel('mid_level',midLevel)"
+									title="Töröl">🗑️</button>
 							</div>
 						</div>
 						<ul>
@@ -28,8 +31,10 @@
 									<div *ngIf="bottomLevel.deleted == deleted" class="container-between">
 										<div>{{bottomLevel.name}}</div>
 										<div>
-											<button class="yellow" (click)="modifyLevel('bottom_level',bottomLevel)" title="Szerkeszt">✏️</button>
-											<button class="red" (click)="deleteLevel('bottom_level',bottomLevel)" title="Töröl">🗑️</button>
+											<button class="yellow" (click)="modifyLevel('bottom_level',bottomLevel)"
+												title="Szerkeszt">✏️</button>
+											<button class="red" (click)="deleteLevel('bottom_level',bottomLevel)"
+												title="Töröl">🗑️</button>
 										</div>
 									</div>
 								</li>
@@ -46,15 +51,14 @@
 <div class="popup" *ngIf="popup">
 	<div class="box">
 		<h3 class="text-center">Új kategória</h3>
-		<div class="container-between">
-			<span>Kategória neve</span>
-			<input type="text" [(ngModel)]="items.name">
+		<div class="popupBody">
+			<div class="container-between">
+				<span>Kategória neve</span>
+				<input type="text" [(ngModel)]="items.name">
+			</div>
 		</div>
 		<div class="container-between">
 			<button (click)="saveLevel()">Mentés</button>
-			<!--<button *ngIf="midLevel" (click)="saveMidLevel()">Mentés</button>
-			<button *ngIf="bottomLevel" (click)="saveBottomLevel()">Mentés</button>
-			<button *ngIf="modifyPopup" (click)="modify()">Mentés</button>-->
 			<button (click)="cancel()">Mégse</button>
 		</div>
 

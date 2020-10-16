@@ -33,7 +33,7 @@ export function categoryRequests(args)
 
 	args.app.post('/listLevel', async function (req, res)
 	{
-		let result;
+		let levels;
 
 		let conditions
 
@@ -59,20 +59,24 @@ export function categoryRequests(args)
 		}
 		else
 		{
-			result = await args.dbConnection('webshop').select().from(req.body.level).where(conditions);
+			levels = await args.dbConnection('webshop').select().from(req.body.level).where(conditions);
 		}
 
-		res.send(result);
+		res.send(levels);
 	});
 
 	args.app.post('/listLevels', async function (req, res)
 	{
-		let result = await args.dbConnection('').select(args.dbConnection.raw(
-			'top.id AS top, mid.id AS mid ,bottom.id AS bottom ' +
-			'FROM top_level top ' +
-			'LEFT JOIN mid_level mid ON top.id = mid.parent ' +
-			'LEFT JOIN bottom_level bottom ON mid.id = bottom.parent WHERE bottom.id = ' + req.body.bottom 
-		));
+		let query = 'top.id AS top, mid.id AS mid ,bottom.id AS bottom ' +
+		'FROM top_level top ' +
+		'LEFT JOIN mid_level mid ON top.id = mid.parent ' +
+		'LEFT JOIN bottom_level bottom ON mid.id = bottom.parent'
+		if(req.body.bottom != undefined)
+		{
+			query += 'WHERE bottom.id = ' + req.body.bottom 
+		}
+		
+		let result = await args.dbConnection('').select(args.dbConnection.raw(query));
 		res.send(result[0]);
 	});
 

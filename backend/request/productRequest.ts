@@ -1,5 +1,3 @@
-import { regex } from "uuidv4";
-
 export function productRequests(args)
 {
 	args.app.post('/addProduct', async function (req, res)
@@ -20,6 +18,28 @@ export function productRequests(args)
 				}
 			);
 
+			let product = await args.dbConnection('webshop').select('id').from('product').where(
+				{
+					name: req.body.name,
+					deleted: 0
+				}
+			)
+
+			//console.log(product);
+
+			product = product[0]['id']
+
+			for (let filter of req.body.filters)
+			{
+				await args.dbConnection('filter_data').insert(
+					{
+						filter: filter.id,
+						data: filter.data,
+						product: product
+					}
+				)
+			}
+
 			res.send(true);
 		}
 	});
@@ -33,30 +53,31 @@ export function productRequests(args)
 		}
 		else
 		{
-			let query = 
-			'product.deleted AS deleted, ' +
-			'product.id AS id, ' +
-			'product.name AS name, ' +
-			'product.price AS price, ' +
-			'product.category AS bottom_id, ' +
-			'bottom.name as bottom,' +
-			'mid.id AS mid_id, ' +
-			'mid.name AS mid, ' +
-			'top.id AS top_id, ' +
-			'top.name AS top ' +
-			'FROM product LEFT JOIN bottom_level bottom ' +
-			'ON product.category = bottom.id ' +
-			'LEFT JOIN mid_level mid ' +
-			'ON bottom.parent = mid.id ' +
-			'LEFT JOIN top_level top ' +
-			'ON mid.parent = top.id ' +
-			'WHERE 1 = 1';
-			if(req.body.top != 0) query += ' AND top.id = ' + req.body.top;
-			if(req.body.mid != 0) query += ' AND mid.id = ' + req.body.mid;
-			if(req.body.bottom != 0) query += ' AND bottom.id = ' + req.body.bottom;
-			if(!req.body.showdeleted) query += ' AND product.deleted = 0 ';
+			let query =
+				'product.deleted AS deleted, ' +
+				'product.id AS id, ' +
+				'product.name AS name, ' +
+				'product.price AS price, ' +
+				'product.category AS bottom_id, ' +
+				'bottom.name as bottom,' +
+				'mid.id AS mid_id, ' +
+				'mid.name AS mid, ' +
+				'top.id AS top_id, ' +
+				'top.name AS top ' +
+				'FROM product ' +
+				'LEFT JOIN bottom_level bottom ' +
+				'ON product.category = bottom.id ' +
+				'LEFT JOIN mid_level mid ' +
+				'ON bottom.parent = mid.id ' +
+				'LEFT JOIN top_level top ' +
+				'ON mid.parent = top.id ' +
+				'WHERE 1 = 1';
+			if (req.body.top != 0) query += ' AND top.id = ' + req.body.top;
+			if (req.body.mid != 0) query += ' AND mid.id = ' + req.body.mid;
+			if (req.body.bottom != 0) query += ' AND bottom.id = ' + req.body.bottom;
+			if (!req.body.showdeleted) query += ' AND product.deleted = 0 ';
 			query += ' ORDER BY ' + req.body.order + ' ' + req.body.dir;
-			
+
 			let results = await args.dbConnection().select(args.dbConnection.raw(query));
 
 			res.send(results);
@@ -76,6 +97,7 @@ export function productRequests(args)
 					jtoken: req.body.jtoken
 				}
 			);
+
 			if (token.length != 1) 
 			{
 				res.send(false);
@@ -90,13 +112,23 @@ export function productRequests(args)
 				category: req.body.category
 			}
 		);
+
+
+		for (let filter of req.body.filters)
+		{
+			await args.dbConnection('filter_data').where({ product: req.body.id, filter: filter.id }).update(
+				{
+					data: filter.data
+				}
+			)
+		}
 		res.send(true);
 	});
 
-	args.app.post('/deleteProduct', async function(req,res)
+	args.app.post('/deleteProduct', async function (req, res)
 	{
 		console.log(req.body.id);
-		await args.dbConnection('product').where({ id: req.body.id }).update({deleted: 1});
+		await args.dbConnection('product').where({ id: req.body.id }).update({ deleted: 1 });
 		res.send(true);
 	})
 }

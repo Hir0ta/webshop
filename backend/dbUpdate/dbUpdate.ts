@@ -70,5 +70,21 @@ export async function createTable(dbConnection)
 		table.integer('deleted');
 	});
 
+	let filters = await dbConnection.schema.createTableIfNotExists('filters',function(table)
+	{
+		table.increments('id');
+		table.string('name');
+		table.string('unit');
+		table.integer('category');
+	});
+
+	let filter_data = await dbConnection.schema.createTableIfNotExists('filter_data', function(table)
+	{
+		table.integer('filter');
+		table.string('data');
+		table.integer('product');
+	})
+
+
 	process.exit();
 }

@@ -13,7 +13,7 @@ export class ProductListComponent implements OnInit
 
 	async ngOnInit()
 	{
-		this.loadFilters();
+		this.loadlevelFilters();
 		this.refresh();
 	}
 
@@ -28,22 +28,23 @@ export class ProductListComponent implements OnInit
 	topLevels;
 	midLevels;
 	bottomLevels;
+	filters;
 	values =
 		{
 			id: '',
 			productName: '',
 			price: ''
 		};
-	filters =
+	levelFilters =
 		{
 			top: 0,
 			mid: 0,
 			bottom: 0
 		};
 
-	topFilters;
-	midFilters;
-	bottomFilters;
+	toplevelFilters;
+	midlevelFilters;
+	bottomlevelFilters;
 
 	showDeleted = false;
 	orderBy = 'name';
@@ -53,13 +54,18 @@ export class ProductListComponent implements OnInit
 
 	popup = false;
 
+	test()
+	{
+		console.log(this.filters);
+	}
+
 	async refresh()
 	{
 		this.products = await this.httpService.callFunction('listProduct',
 			{
-				top: this.filters.top,
-				mid: this.filters.mid,
-				bottom: this.filters.bottom,
+				top: this.levelFilters.top,
+				mid: this.levelFilters.mid,
+				bottom: this.levelFilters.bottom,
 				order: this.orderBy,
 				dir: this.direction,
 				showdeleted: this.showDeleted,
@@ -83,7 +89,7 @@ export class ProductListComponent implements OnInit
 					name: this.values.productName,
 					price: this.values.price,
 					category: this.levels.bottom,
-					jtoken: localStorage.getItem('adminJToken'),
+					filters: this.filters
 				});
 		}
 		else
@@ -94,7 +100,8 @@ export class ProductListComponent implements OnInit
 					name: this.values.productName,
 					price: this.values.price,
 					category: this.levels.bottom,
-					jtoken: localStorage.getItem('adminJToken'),
+					filters: this.filters
+
 				});
 		}
 
@@ -117,6 +124,8 @@ export class ProductListComponent implements OnInit
 			price: ''
 		}
 
+		this.filters = {};
+
 		this.refresh();
 	}
 
@@ -136,6 +145,8 @@ export class ProductListComponent implements OnInit
 			productName: '',
 			price: ''
 		}
+
+		this.filters = {};
 	}
 
 	async loadLevels()
@@ -143,48 +154,53 @@ export class ProductListComponent implements OnInit
 		this.topLevels = await this.httpService.callFunction('listLevel',
 			{
 				level: 'top_level',
-				jtoken: localStorage.getItem('adminJToken'),
+
 			});
 
 		this.midLevels = await this.httpService.callFunction('listLevel',
 			{
 				level: 'mid_level',
 				parent: this.levels.top,
-				jtoken: localStorage.getItem('adminJToken'),
+
 			});
+
+		if (this.levels.mid != 0) this.loadFilters();
 
 		this.bottomLevels = await this.httpService.callFunction('listLevel',
 			{
 				level: 'bottom_level',
 				parent: this.levels.mid,
-				jtoken: localStorage.getItem('adminJToken'),
+
 			});
 	};
 
-	async loadFilters()
+	async loadlevelFilters()
 	{
-		this.topFilters = await this.httpService.callFunction('listLevel',
+		this.toplevelFilters = await this.httpService.callFunction('listLevel',
 			{
 				level: 'top_level',
-				jtoken: localStorage.getItem('adminJToken'),
+
 			});
 
-		console.log(this.topFilters);
-		this.midFilters = await this.httpService.callFunction('listLevel',
+		this.midlevelFilters = await this.httpService.callFunction('listLevel',
 			{
 				level: 'mid_level',
-				parent: this.filters.top,
-				jtoken: localStorage.getItem('adminJToken'),
-			});
-		console.log(this.midFilters);
+				parent: this.levelFilters.top,
 
-		this.bottomFilters = await this.httpService.callFunction('listLevel',
+			});
+
+		this.bottomlevelFilters = await this.httpService.callFunction('listLevel',
 			{
 				level: 'bottom_level',
-				parent: this.filters.mid,
-				jtoken: localStorage.getItem('adminJToken'),
+				parent: this.levelFilters.mid,
+
 			});
-		console.log(this.bottomFilters);
+		//console.log(this.bottomlevelFilters);
+	}
+
+	async loadFilters()
+	{
+		this.filters = await this.httpService.callFunction('listFilters', { category: this.levels.mid });
 	}
 
 	async modify(product)
@@ -200,13 +216,19 @@ export class ProductListComponent implements OnInit
 		this.levels.top = levels.top;
 		this.levels.mid = levels.mid
 		this.levels.bottom = levels.bottom;
-
+		this.loadFilters();
+		setTimeout(async () => {
+			this.filters = await this.httpService.callFunction('loadFilters',{product: product.id});	
+		}, 100);
+		
+		console.log(this.filters);
 		this.popup = true;
 	}
 
 	async delete(id)
 	{
 		await this.httpService.callFunction('deleteProduct', { id: id });
+		this.refresh();
 	}
 
 	setOrder(orderBy)
