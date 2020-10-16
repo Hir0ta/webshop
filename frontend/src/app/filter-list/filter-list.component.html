@@ -1,0 +1,53 @@
+<ul>
+	<li *ngFor="let topLevel of topLevels">
+		<div *ngIf="topLevel.deleted == 0" class="container-between">
+			<div>{{topLevel.name}}</div>
+		</div>
+		<ul>
+			<ng-container *ngFor="let midLevel of midLevels">
+				<li *ngIf="midLevel.deleted == 0">
+					<div class="container-between">
+						<div>{{midLevel.name}}</div>
+						<div>
+							<button class="yellow" (click)="editFilter(midLevel.id)"
+								title="Szűrő szerkesztése">✏️</button>
+						</div>
+					</div>
+				</li>
+			</ng-container>
+		</ul>
+	</li>
+</ul>
+
+
+
+
+
+
+
+<div class="popup" *ngIf="popup">
+	<div class="box">
+
+		<h4 class="text-center">Szűrők</h4>
+		<div class="popupBody">
+			<div class="text-center">
+				<button (click)="addFilter()" title="Új mező">➕</button>
+			</div>
+			<div class="container-between" *ngFor="let filter of filters; index as i; trackBy:trackByFn">
+				<div>
+					Mező neve:
+					<input [(ngModel)]="filters[i].name">
+				</div>
+				<div>
+					Mértékegység:
+					<input [(ngModel)]="filters[i].unit">
+				</div>
+			</div>
+		</div>
+		<div class="container-between">
+			<button (click)="save()">Mentés</button>
+			<button (click)="cancel()">Mégse</button>
+		</div>
+
+	</div>
+</div>

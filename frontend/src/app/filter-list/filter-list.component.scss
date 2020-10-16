@@ -1,0 +1,68 @@
+:host {
+    ul {
+        li {
+            .container-between {
+				width: 40rem;
+				align-items: center;
+
+                button {
+                    border: none;
+					border-radius: 0.5rem;
+					padding: 0.5rem;
+					margin: 0.5rem;
+					cursor: pointer;
+                    -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+                    -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+                    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+                }
+            }
+        }
+    }
+
+    .popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        .box {
+            width: 50vw;
+            height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: auto;
+            border-radius: 0.5rem;
+            background-color: lightgray;
+            -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+            -moz-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+            box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+
+			.popupBody {
+				height: 90%;
+				overflow: auto;
+
+				.text-center
+				{
+					position: sticky;
+					top: 0;
+					background-color: lightgray;
+				}
+			}
+
+            .container-between {
+                width: 25rem;
+                margin: 3rem auto;
+            }
+
+            button {
+                width: 7rem;
+                text-align: center;
+                margin: 0 auto;
+            }
+        }
+    }
+}
