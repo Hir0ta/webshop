@@ -71,6 +71,8 @@ export class ProductListComponent implements OnInit
 				showdeleted: this.showDeleted,
 				jtoken: localStorage.getItem('adminJToken')
 			});
+
+			console.log(this.products);
 	};
 
 	newProduct()
@@ -205,23 +207,19 @@ export class ProductListComponent implements OnInit
 
 	async modify(product)
 	{
+		this.loadLevels();
+		this.loadFilters();
 		this.values.id = product.id
 		this.values.productName = product.name;
 		this.values.price = product.price;
-		this.loadLevels();
-		let levels = await this.httpService.callFunction('listLevels',
-			{
-				bottom: product.categoryid
-			});
-		this.levels.top = levels.top;
-		this.levels.mid = levels.mid
-		this.levels.bottom = levels.bottom;
-		this.loadFilters();
+		this.levels.top = product.top_id;
+		this.levels.mid = product.mid_id
+		this.levels.bottom = product.bottom_id;
+		
 		setTimeout(async () => {
 			this.filters = await this.httpService.callFunction('loadFilters',{product: product.id});	
 		}, 100);
 		
-		console.log(this.filters);
 		this.popup = true;
 	}
 

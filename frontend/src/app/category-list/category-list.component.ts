@@ -39,9 +39,9 @@ export class CategoryListComponent implements OnInit
 			{
 				level: this.items.level,
 				name: this.items.name,
-				parent: this.items.parent,
-				filters: this.filters
+				parent: this.items.parent
 			}
+			this.httpService.callFunction('addLevel', params);
 		}
 		else 
 		{
@@ -50,12 +50,12 @@ export class CategoryListComponent implements OnInit
 				id: this.items.id,
 				level: this.items.level,
 				name: this.items.name,
-				parent: this.items.parent,
-				filters: this.filters
+				parent: this.items.parent
 			}
+			this.httpService.callFunction('modifyLevel', params);
 		};
 
-		this.httpService.callFunction('addLevel', params);
+		
 
 		this.popup = false;
 		this.topLevel = false;
@@ -113,23 +113,6 @@ export class CategoryListComponent implements OnInit
 			name: items.name
 		}
 
-	}
-
-	async modify()
-	{
-		this.httpService.callFunction('modifyLevel',
-			{
-
-				level: this.items.level,
-				id: this.items.id,
-				name: this.items.name
-			});
-
-		this.popup = false;
-		this.modifyPopup = false;
-		this.items = '';
-
-		this.refresh();
 	}
 
 	async deleteLevel(level, items)
