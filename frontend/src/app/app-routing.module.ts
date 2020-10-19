@@ -23,56 +23,53 @@ import { ChangePasswordSuccessComponent } from './change-password-success/change
 
 
 
-const routes: Routes = 
-[
-	{
-		path: 'public', component: PublicFrameComponent,
-		children:
-			[
-				//{ path: '**', redirectTo: 'welcome' }
-			]
-	},
-	{
-		path: 'login', component: LoginPageComponent,
-		children:
-			[
-				{ path: 'login', component: LoginPageComponent },
-				{ path: 'reset-password', component: ResetPasswordComponent },
-				{ path: 'reset-password-success', component: ResetPasswordSuccessComponent },
-				{ path: 'change-password', component: ChangePasswordComponent },
-				{ path: 'change-password-success', component: ChangePasswordSuccessComponent },
-				{ path: '**', redirectTo: 'login' }
-			]
-	},
-	{
-		path: 'private', component: PrivateFrameComponent,
-		children:
-			[
-				
-			]
-	},
-	{
-		path: 'admin', component: AdminFrameComponent,
-		children:
-			[
-				{path: 'login', component: AdminLoginComponent},
-				{path: 'password-request', component: AdminRequestPasswordComponent},
-				{path: 'change-password', component: AdminChangePasswordComponent},
-				{path: 'change-password-success', component: AdminChangePasswordSuccessComponent},
-				{path: 'admin-page', component: AdminPageComponent,
-					children:
-					[
-						{path:'admin-list', component: AdminListComponent},
-						{path: 'categories', component: CategoryListComponent},
-						{path: 'filters', component: FilterListComponent},
-						{path: 'products', component: ProductListComponent}
-						
-					]
-				}
+const routes: Routes =
+	[
+		{
+			path: 'public', component: PublicFrameComponent,
+			children:
+				[
+					{ path: '**', redirectTo: 'login' },
+					{ path: 'login', component: LoginPageComponent },
+					{ path: 'reset-password', component: ResetPasswordComponent },
+					{ path: 'reset-password-success', component: ResetPasswordSuccessComponent },
+					{ path: 'change-password', component: ChangePasswordComponent },
+					{ path: 'change-password-success', component: ChangePasswordSuccessComponent }
+				],
+		},
 
-			]
-	}
-];
+		{
+			path: 'private', component: PrivateFrameComponent,
+			children:
+				[
+
+				]
+		},
+		{
+			path: 'admin', component: AdminFrameComponent,
+			children:
+				[
+					{ path: '**', redirectTo: 'login'},
+					{ path: 'login', component: AdminLoginComponent },
+					{ path: 'password-request', component: AdminRequestPasswordComponent },
+					{ path: 'change-password', component: AdminChangePasswordComponent },
+					{ path: 'change-password-success', component: AdminChangePasswordSuccessComponent },
+					{
+						path: 'admin-page', component: AdminPageComponent,
+						children:
+							[
+								{ path: 'admin-list', component: AdminListComponent },
+								{ path: 'categories', component: CategoryListComponent },
+								{ path: 'filters', component: FilterListComponent },
+								{ path: 'products', component: ProductListComponent }
+
+							]
+					}
+
+				]
+		},
+		{ path: '**', redirectTo: 'public/login' }
+	];
 
 @NgModule({
 	imports: [RouterModule.forRoot(routes, { useHash: true })],
