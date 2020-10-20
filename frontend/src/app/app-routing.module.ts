@@ -15,11 +15,15 @@ import { CategoryListComponent } from './category-list/category-list.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { FilterListComponent } from './filter-list/filter-list.component';
 
+import { RegistrationComponent } from './registration/registration.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { ActivationComponent } from './activation/activation.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetPasswordSuccessComponent } from './reset-password-success/reset-password-success.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
+
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 
@@ -29,12 +33,11 @@ const routes: Routes =
 			path: 'public', component: PublicFrameComponent,
 			children:
 				[
-					{ path: '**', redirectTo: 'login' },
+					{ path: 'registration', component: RegistrationComponent},
 					{ path: 'login', component: LoginPageComponent },
+					{ path: 'activate', component: ActivationComponent},
 					{ path: 'reset-password', component: ResetPasswordComponent },
-					{ path: 'reset-password-success', component: ResetPasswordSuccessComponent },
-					{ path: 'change-password', component: ChangePasswordComponent },
-					{ path: 'change-password-success', component: ChangePasswordSuccessComponent }
+					{ path: 'change-password', component: ChangePasswordComponent }
 				],
 		},
 
@@ -42,7 +45,7 @@ const routes: Routes =
 			path: 'private', component: PrivateFrameComponent,
 			children:
 				[
-
+					{path: 'welcome', component: WelcomeComponent}
 				]
 		},
 		{
@@ -68,7 +71,7 @@ const routes: Routes =
 
 				]
 		},
-		{ path: '**', redirectTo: 'public/login' }
+		{ path: '**', redirectTo: 'public' }
 	];
 
 @NgModule({

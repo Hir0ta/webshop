@@ -22,6 +22,9 @@ import { AdminRequestPasswordComponent } from './admin-request-password/admin-re
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { FilterListComponent } from './filter-list/filter-list.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { ActivationComponent } from './activation/activation.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { FilterListComponent } from './filter-list/filter-list.component';
     AdminRequestPasswordComponent,
     CategoryListComponent,
     ProductListComponent,
-    FilterListComponent
+    FilterListComponent,
+    RegistrationComponent,
+    ActivationComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

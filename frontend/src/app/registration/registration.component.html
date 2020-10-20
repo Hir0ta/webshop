@@ -1,0 +1,20 @@
+<div class="box">
+	<h3 class="success">{{registrationSuccess}}</h3>
+	<div class="container-between">
+		<span>Felhasználónév</span>
+		<input type="text" [(ngModel)]="user_name">
+	</div>
+	<div class="container-between">
+		<span>E-mail cím</span>
+		<input type="email" [(ngModel)]="email">
+	</div>
+	<div class="container-between">
+		<span>Jelszó</span>
+		<input type="password" [(ngModel)]="password1">
+	</div>
+	<div class="container-between">
+		<span>Jelszó mégegyszer</span>
+		<input type="password" [(ngModel)]="password2">
+	</div>
+	<button (click)="registration()">Regisztráció</button>
+</div>

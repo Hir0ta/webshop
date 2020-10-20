@@ -1,13 +1,13 @@
 :host {
-    display: flex;
-	justify-content: center;
-	flex-direction: column;
+	display: flex;
+    justify-content: center;
 	align-items: center;
 	height: 100%;
 
     .box {
         width: 50vw;
 		height: 50vh;
+		min-height: 45rem;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -18,18 +18,17 @@
 		-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 		box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
 
-		.loginFailed {
-			color: yellow;
+		.success {
 			text-align: center;
+			color: yellow;
 		}
 
 		.container-between {
-			width: 25rem;
+			width: 30rem;
 			margin: 3rem auto;
 		}
 
 		button {
-			width: 7rem;
 			text-align: center;
 			margin: 0 auto;
 		}

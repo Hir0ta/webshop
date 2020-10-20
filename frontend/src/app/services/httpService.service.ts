@@ -17,9 +17,7 @@ export class HttpService
 
 	async getConfig()
 	{
-		this.http.get('assets/config.json', { responseType: 'text' }).subscribe(
-			data => { this.config = JSON.parse(data) }
-		)
+		this.config = JSON.parse(await this.http.get('assets/config.json', { responseType: 'text' }).toPromise());
 	}
 
 	async callFunction(functionName: string, params?: Object)

@@ -34,7 +34,8 @@ export async function createTable(dbConnection)
 
 	let tokenTable = await dbConnection.schema.createTableIfNotExists('token_table', function (table)
 	{
-		table.string('admin_id');
+		table.integer('admin_id');
+		table.integer('user_id');
 		table.string('jtoken');
 	});
 
@@ -83,6 +84,16 @@ export async function createTable(dbConnection)
 		table.integer('filter');
 		table.string('data');
 		table.integer('product');
+	});
+
+	let userTable = await dbConnection.schema.createTableIfNotExists('users', function(table)
+	{
+		table.increments('id');
+		table.string('user_name');
+		table.string('email');
+		table.string('password');
+		table.integer('activated');
+		table.integer('deleted');
 	})
 
 
