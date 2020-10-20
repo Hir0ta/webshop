@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpService } from '../services/httpService.service';
 import { Router } from '@angular/router';
 import sha256 from 'crypto-js/sha256';
 import { uuid } from 'uuidv4';
@@ -16,7 +16,7 @@ export class AdminLoginComponent implements OnInit
 	loginFailed;
 	jtoken;
 
-	constructor(private http: HttpClient, private router: Router) { }
+	constructor(private http: HttpService, private router: Router) { }
 
 	ngOnInit()
 	{
@@ -25,25 +25,20 @@ export class AdminLoginComponent implements OnInit
 
 	async login()
 	{
-		let result = await this.http.post('http://localhost:8080/loginAdmin',
+		let result = await this.http.callFunction('loginAdmin',
 			{
 				user_name: this.user_name,
 				password: sha256(this.password),
-			},
-			{
-				headers: new HttpHeaders(
-					{
-						'Content-Type': 'application/json',
-						'credentials': 'same-origin'
-					}),
-				withCredentials: true,
 			}
+		)
 
-		).toPromise();
+		
+		console.log(result);
 
 		if (result != false)
 		{
 			localStorage.setItem('adminJToken', result[0].jtoken );
+
 
 			this.router.navigate(['/admin/admin-page']);
 		}

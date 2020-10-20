@@ -52,7 +52,6 @@ const routes: Routes =
 			path: 'admin', component: AdminFrameComponent,
 			children:
 				[
-					{ path: '**', redirectTo: 'login'},
 					{ path: 'login', component: AdminLoginComponent },
 					{ path: 'password-request', component: AdminRequestPasswordComponent },
 					{ path: 'change-password', component: AdminChangePasswordComponent },
