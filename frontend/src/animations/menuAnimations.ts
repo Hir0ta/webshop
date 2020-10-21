@@ -2,7 +2,7 @@ import{	trigger,state,style,animate,transition } from '@angular/animations';
 
 export const menuAnimations =
 [
-	/*Close menubar in desktop mode*/
+	/*Open-close main categories*/
 	trigger('toggle',
 		[
 			//Menu animation
