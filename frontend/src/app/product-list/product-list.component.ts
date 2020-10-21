@@ -166,14 +166,14 @@ export class ProductListComponent implements OnInit
 
 			});
 
-		if (this.levels.mid != 0) this.loadFilters();
-
 		this.bottomLevels = await this.httpService.callFunction('listLevel',
 			{
 				level: 'bottom_level',
 				parent: this.levels.mid,
 
 			});
+
+			if (this.levels.mid != 0) this.loadFilters();
 	};
 
 	async loadlevelFilters()
@@ -217,7 +217,7 @@ export class ProductListComponent implements OnInit
 		this.loadFilters();
 		setTimeout(async () => {
 			this.filters = await this.httpService.callFunction('loadFilters',{product: product.id});	
-		}, 100);
+		}, 500);
 		
 		this.popup = true;
 	}
