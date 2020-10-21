@@ -2,7 +2,7 @@
 	<li *ngFor="let topLevel of topLevels">
 		<div (click)="topLevel.open = !topLevel.open">
 			<span>{{topLevel.name}}</span>
-			<img src="assets/arrow.png" [@toggle]="topLevel.open ? 'rotateOpened' : 'rotateClosed'">
+			<img src="assets/arrow.png" [@toggle]="topLevel.open ? 'rotateClosed' : 'rotateOpened'">
 		</div>
 		<ul [@toggle]="topLevel.open ? 'menuOpened' : 'menuClosed'">
 			<ng-container  *ngFor="let midLevel of midLevels">
