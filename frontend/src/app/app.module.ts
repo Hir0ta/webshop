@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,6 +26,8 @@ import { FilterListComponent } from './filter-list/filter-list.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ActivationComponent } from './activation/activation.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { ProductInterfaceComponent } from './product-interface/product-interface.component';
+import { MenubarComponent } from './menubar/menubar.component';
 
 @NgModule({
   declarations: [
@@ -48,10 +51,13 @@ import { WelcomeComponent } from './welcome/welcome.component';
     FilterListComponent,
     RegistrationComponent,
     ActivationComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    ProductInterfaceComponent,
+    MenubarComponent
   ],
   imports: [
-    BrowserModule,
+	BrowserModule,
+	BrowserAnimationsModule,
 	AppRoutingModule,
 	FormsModule,
 	HttpClientModule

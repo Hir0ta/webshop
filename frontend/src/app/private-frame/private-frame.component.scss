@@ -1,0 +1,17 @@
+:host {
+	display: grid;
+	grid-template-columns: 30rem auto;
+	height: 100%;
+
+	menubar {
+		display: block;
+		height: 100%;
+		border-right: 1px solid black;
+	}
+
+	#content {
+		height: 100%;
+		overflow: auto;
+		padding: 1rem;
+	}
+}
