@@ -208,14 +208,13 @@ export class ProductListComponent implements OnInit
 	async modify(product)
 	{
 		this.loadLevels();
-		this.loadFilters();
 		this.values.id = product.id
 		this.values.productName = product.name;
 		this.values.price = product.price;
 		this.levels.top = product.top_id;
 		this.levels.mid = product.mid_id
 		this.levels.bottom = product.bottom_id;
-		
+		this.loadFilters();
 		setTimeout(async () => {
 			this.filters = await this.httpService.callFunction('loadFilters',{product: product.id});	
 		}, 100);
