@@ -25,6 +25,7 @@ import { ChangePasswordSuccessComponent } from './change-password-success/change
 
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProductInterfaceComponent } from './product-interface/product-interface.component';
+import { ProductComponent } from './product/product.component';
 
 
 
@@ -47,7 +48,8 @@ const routes: Routes =
 			children:
 				[
 					{ path: 'welcome', component: WelcomeComponent},
-					{ path: 'products', component: ProductInterfaceComponent}
+					{ path: 'products', component: ProductInterfaceComponent},
+					{ path: 'product', component: ProductComponent}
 				]
 		},
 		{

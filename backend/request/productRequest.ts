@@ -72,11 +72,15 @@ export function productRequests(args)
 				'LEFT JOIN top_level top ' +
 				'ON mid.parent = top.id ' +
 				'WHERE 1 = 1';
-			if (req.body.top != 0) query += ' AND top.id = ' + req.body.top;
-			if (req.body.mid != 0) query += ' AND mid.id = ' + req.body.mid;
-			if (req.body.bottom != 0) query += ' AND bottom.id = ' + req.body.bottom;
+			if (req.body.id > 0) query += 'AND product.id = ' + req.body.id;
+			if (req.body.top > 0) query += ' AND top.id = ' + req.body.top;
+			if (req.body.mid > 0) query += ' AND mid.id = ' + req.body.mid;
+			if (req.body.bottom > 0) query += ' AND bottom.id = ' + req.body.bottom;
 			if (!req.body.showdeleted) query += ' AND product.deleted = 0 ';
-			query += ' ORDER BY ' + req.body.order + ' ' + req.body.dir;
+			if (req.body.order != undefined && req.body.dir != undefined)
+			{
+				query += ' ORDER BY ' + req.body.order + ' ' + req.body.dir;
+			}
 
 			let results = await args.dbConnection().select(args.dbConnection.raw(query));
 
@@ -127,8 +131,67 @@ export function productRequests(args)
 
 	args.app.post('/deleteProduct', async function (req, res)
 	{
-		console.log(req.body.id);
 		await args.dbConnection('product').where({ id: req.body.id }).update({ deleted: 1 });
 		res.send(true);
+	});
+
+	args.app.post('/listFilteredProducts', async function (req, res)
+	{
+		let filters;
+		if (req.body.mid > 0)
+		{
+			filters = await args.dbConnection().select().from('filters').where({ category: req.body.mid });
+		}
+
+		let query =
+			"product.id as product_id, product.name as name, product.price as price, " +
+			"product.category as category, product.deleted as deleted, mid_level.id as mid, bottom_level.name as category";
+
+		for (let filter of filters)
+		{
+			query += ",filter_data.filter_data" + filter.id
+		}
+
+		query += " FROM product LEFT JOIN (select product";
+
+		for (let filter of filters)
+		{
+			query += ",max(case when filter_data.filter=" + filter.id + " then filter_data.data else '' end) as filter_data" + filter.id
+		}
+
+		query += " from filter_data group by product) filter_data ON product.id = filter_data.product " +
+			"LEFT JOIN bottom_level ON bottom_level.id = category " +
+			"LEFT JOIN mid_level ON mid_level.id = bottom_level.parent " +
+			"WHERE mid_level.id=" + req.body.mid;
+
+		if (req.body.category > 0)
+		{
+			query += " AND category=" + req.body.category
+		}
+
+		if(req.body.filterDatas != undefined)
+		{
+			for (let filterData of req.body.filterDatas)
+			{
+				if (filterData.data !== undefined && filterData.data !== '' && filterData.data != 0)
+				{
+					query += " AND filter_data" + filterData.id + "='" + filterData.data + "'";
+				}
+			}
+		}
+
+		if (req.body.id > 0)
+		{
+			query += " AND product.id=" + req.body.id;
+		}
+
+		if (req.body.order != undefined && req.body.dir != undefined)
+		{
+			query += " ORDER BY " + req.body.order + ' ' + req.body.dir;
+		}
+
+		let products = await args.dbConnection().select(args.dbConnection.raw(query));
+
+		res.send(products);
 	})
 }

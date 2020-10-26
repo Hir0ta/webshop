@@ -12,7 +12,7 @@
 		<option *ngFor="let midFilter of midlevelFilters" [value]="midFilter.id">{{midFilter.name}}</option>
 	</select>
 
-	<select [(ngModel)]="levelFilters.bottom" (ngModelChange)="loadlevelFilters()">
+	<select [(ngModel)]="levelFilters.bottom">
 		<option [value]="0">Válassz kategóriát</option>
 		<option *ngFor="let bottomFilter of bottomlevelFilters" [value]="bottomFilter.id">{{bottomFilter.name}}</option>
 	</select>
@@ -78,7 +78,7 @@
 			</div>
 
 			<div class="text-center">
-				<select [(ngModel)]="levels.bottom" (ngModelChange)="loadLevels()">
+				<select [(ngModel)]="levels.bottom">
 					<option disabled [value]="0">Válassz kategóriát</option>
 					<option *ngFor="let bottomLevel of bottomLevels" [value]="bottomLevel.id">{{bottomLevel.name}}
 					</option>

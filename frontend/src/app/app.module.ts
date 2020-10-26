@@ -28,6 +28,7 @@ import { ActivationComponent } from './activation/activation.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProductInterfaceComponent } from './product-interface/product-interface.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { ProductComponent } from './product/product.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { MenubarComponent } from './menubar/menubar.component';
     ActivationComponent,
     WelcomeComponent,
     ProductInterfaceComponent,
-    MenubarComponent
+    MenubarComponent,
+    ProductComponent
   ],
   imports: [
 	BrowserModule,

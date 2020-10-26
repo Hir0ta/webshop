@@ -1,0 +1,21 @@
+<div id="filter">
+	<select [(ngModel)]="selectedCategory" (ngModelChange)="refresh()">
+		<option value="0">Minden márka</option>
+		<ng-container *ngFor="let category of categories">
+			<option [value]="category.id">{{category.name}}</option>
+		</ng-container>
+	</select>
+	<div *ngFor="let filterData of filterDatas">
+		<span>{{filterData.name}}: </span>
+		<select [(ngModel)]="filterData.data" (ngModelChange)="refresh()">
+			<option value="0">Mind</option>
+			<ng-container *ngFor="let filterSelect of filterSelects">
+				<option *ngIf="filterSelect.filter == filterData.id" [value]="filterSelect.data">{{filterSelect.data}}</option>
+			</ng-container>
+		</select>
+	</div>
+</div>
+
+<ul>
+	<li *ngFor="let product of products" routerLink="../product" [queryParams]="{id:product.product_id, category: parent}">{{product.name}}</li>
+</ul>

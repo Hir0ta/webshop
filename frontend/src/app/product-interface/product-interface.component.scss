@@ -1,0 +1,7 @@
+#filter {
+	display: flex;
+	div {
+		display: grid;
+		grid-template-columns: auto auto;
+	}
+}

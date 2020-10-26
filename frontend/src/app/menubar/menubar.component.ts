@@ -32,7 +32,6 @@ export class MenubarComponent implements OnInit
 			topLevel.open = false;
 		}
 		
-		console.log(this.topLevels);
 		this.midLevels = await this.httpService.callFunction('listLevel', { level: 'mid_level' });
 	}
 
