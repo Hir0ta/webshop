@@ -29,6 +29,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ProductInterfaceComponent } from './product-interface/product-interface.component';
 import { MenubarComponent } from './menubar/menubar.component';
 import { ProductComponent } from './product/product.component';
+import { CartComponent } from './cart/cart.component';
+import { OrderListComponent } from './order-list/order-list.component';
+import { DataSheetComponent } from './data-sheet/data-sheet.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,10 @@ import { ProductComponent } from './product/product.component';
     WelcomeComponent,
     ProductInterfaceComponent,
     MenubarComponent,
-    ProductComponent
+    ProductComponent,
+    CartComponent,
+    OrderListComponent,
+    DataSheetComponent
   ],
   imports: [
 	BrowserModule,

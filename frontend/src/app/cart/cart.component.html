@@ -1,0 +1,23 @@
+<div *ngFor="let order of orders">
+	<span>{{order.name}}:</span><input type="number" [(ngModel)]="order.qty"><span>Db</span>
+</div>
+<button (click)="order()" *ngIf="orders.length > 0">Megrendelés</button>
+
+<div *ngIf="orders.length == 0">
+	<button (click)="showOrders()">Mutasd az rendeléseimet</button>
+	<ul>
+		<li *ngFor="let order of ordered" (click)="showOrderDetails(order.order_id)">{{order.order_id}}</li>
+	</ul>
+
+	<div class="container-between" *ngFor="let detail of details">
+		<span>
+			{{detail.name}}
+		</span>
+		<span>
+			{{detail.qty}}
+		</span>
+		<span>
+			{{detail.price}}
+		</span>
+	</div>
+</div>

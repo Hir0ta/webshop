@@ -1,0 +1,53 @@
+<div *ngFor="let user of users">
+	<div>Felhasználónév: {{user.user_name}}</div>
+</div>
+
+<div class="container-between">
+	<div>
+		<h3>Számlázási adatok:</h3>
+		<div>
+			<div>Név:</div>
+			<input type="text" [(ngModel)]="invoiceData.name">
+		</div>
+		<div>
+			<div>Irányítószám:</div>
+			<input type="text" [(ngModel)]="invoiceData.inv_postcode">
+		</div>
+		<div>
+			<div>Város:</div>
+			<input type="text" [(ngModel)]="invoiceData.inv_city">
+		</div>
+		<div>
+			<div>Utca:</div>
+			<input type="text" [(ngModel)]="invoiceData.inv_street">
+		</div>
+		<div>
+			<div>Házszám:</div>
+			<input type="text" [(ngModel)]="invoiceData.inv_house_num">
+		</div>
+	</div>
+	<div>
+		<h3>Szállítási adatok</h3>
+		<div>
+			<input type="checkbox" [(ngModel)]="itsTheSame" (ngModelChange)="copy()">
+			Szállítási cím megegyezik a számlázási címmel
+		</div>
+		<div>
+			<div>Irányítószám:</div>
+			<input type="text" [(ngModel)]="invoiceData.ship_postcode">
+		</div>
+		<div>
+			<div>Város:</div>
+			<input type="text" [(ngModel)]="invoiceData.ship_city">
+		</div>
+		<div>
+			<div>Utca:</div>
+			<input type="text" [(ngModel)]="invoiceData.ship_street">
+		</div>
+		<div>
+			<div>Házszám:</div>
+			<input type="text" [(ngModel)]="invoiceData.ship_house_num">
+		</div>
+	</div>
+</div>
+<button (click)="save()">Mentés</button>

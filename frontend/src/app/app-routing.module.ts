@@ -14,6 +14,7 @@ import { AdminListComponent } from './admin-list/admin-list.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { FilterListComponent } from './filter-list/filter-list.component';
+import { OrderListComponent } from './order-list/order-list.component';
 
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -24,6 +25,8 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ChangePasswordSuccessComponent } from './change-password-success/change-password-success.component';
 
 import { WelcomeComponent } from './welcome/welcome.component';
+import { DataSheetComponent } from './data-sheet/data-sheet.component';
+import { CartComponent } from './cart/cart.component';
 import { ProductInterfaceComponent } from './product-interface/product-interface.component';
 import { ProductComponent } from './product/product.component';
 
@@ -47,9 +50,11 @@ const routes: Routes =
 			path: 'private', component: PrivateFrameComponent,
 			children:
 				[
-					{ path: 'welcome', component: WelcomeComponent},
-					{ path: 'products', component: ProductInterfaceComponent},
-					{ path: 'product', component: ProductComponent}
+					{ path: 'welcome', component: WelcomeComponent },
+					{ path: 'profile', component: DataSheetComponent },
+					{ path: 'cart', component: CartComponent },
+					{ path: 'products', component: ProductInterfaceComponent },
+					{ path: 'product', component: ProductComponent }
 				]
 		},
 		{
@@ -67,8 +72,8 @@ const routes: Routes =
 								{ path: 'admin-list', component: AdminListComponent },
 								{ path: 'categories', component: CategoryListComponent },
 								{ path: 'filters', component: FilterListComponent },
-								{ path: 'products', component: ProductListComponent }
-
+								{ path: 'products', component: ProductListComponent },
+								{ path: 'orders', component: OrderListComponent }
 							]
 					}
 

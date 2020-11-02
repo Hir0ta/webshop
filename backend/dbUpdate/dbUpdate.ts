@@ -94,8 +94,31 @@ export async function createTable(dbConnection)
 		table.string('password');
 		table.integer('activated');
 		table.integer('deleted');
+	});
+
+	let order = await dbConnection.schema.createTableIfNotExists('orders', function(table)
+	{
+		table.string('order_id');
+		table.integer('user');
+		table.integer('product');
+		table.integer('qty');
+		table.integer('status');
 	})
 
+	let invoice = await dbConnection.schema.createTableIfNotExists('invoices', function(table)
+	{
+		table.increments('id');
+		table.integer('user');
+		table.string('name');
+		table.string('inv_postcode');
+		table.string('inv_city');
+		table.string('inv_street');
+		table.string('inv_house_num');
+		table.string('ship_postcode');
+		table.string('ship_city');
+		table.string('ship_street');
+		table.string('ship_house_num');
+	})
 
 	process.exit();
 }

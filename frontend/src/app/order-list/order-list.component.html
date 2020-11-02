@@ -1,0 +1,62 @@
+<ul>
+	<ng-container *ngFor="let order of orders">
+		<li (click)="showDetail(order.order_id)">{{order.order_id}}</li>
+	</ng-container>
+</ul>
+
+<div class="container-between" *ngFor="let detail of details">
+	<span>
+		{{detail.name}}
+	</span>
+	<span>
+		{{detail.qty}}
+	</span>
+	<span>
+		{{detail.price}}
+	</span>
+</div>
+
+<div class="container-between" *ngFor="let invoiceData of invoiceDatas">
+	<div>
+		<h3>Számlázási adatok:</h3>
+		<div>
+			<div>Név:</div>
+			<div>{{invoiceData.name}}</div>
+		</div>
+		<div>
+			<div>Irányítószám:</div>
+			<div>{{invoiceData.inv_postcode}}</div>
+		</div>
+		<div>
+			<div>Város:</div>
+			<div>{{invoiceData.inv_city}}</div>
+		</div>
+		<div>
+			<div>Utca:</div>
+			<div>{{invoiceData.inv_street}}</div>
+		</div>
+		<div>
+			<div>Házszám:</div>
+			<div>{{invoiceData.inv_house_num}}</div>>
+		</div>
+	</div>
+	<div>
+		<h3>Szállítási adatok</h3>
+		<div>
+			<div>Irányítószám:</div>
+			<div>{{invoiceData.ship_postcode}}</div>
+		</div>
+		<div>
+			<div>Város:</div>
+			<div>{{invoiceData.ship_city}}</div>
+		</div>
+		<div>
+			<div>Utca:</div>
+			<div>{{invoiceData.ship_street}}</div>
+		</div>
+		<div>
+			<div>Házszám:</div>
+			<div>{{invoiceData.ship_house_num}}</div>
+		</div>
+	</div>
+</div>

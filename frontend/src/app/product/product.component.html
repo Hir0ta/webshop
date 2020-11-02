@@ -1,0 +1,12 @@
+<ul>
+	<ng-container *ngFor="let product of products">
+		<li>Márka: {{product.category}}</li>
+		<li>Név: {{product.name}}</li>
+		<ng-container *ngFor="let filter of filters">
+			<li>
+				{{filter.name}}: {{filter.data}} {{filter.unit}}
+			</li>
+		</ng-container>
+	</ng-container>
+</ul>
+<input type="number" [(ngModel)]="qty"><button (click)="addToCart()">Kosárba tesz</button>

@@ -196,7 +196,7 @@ export function userAuthRequest(args)
 			user[0].jtoken = uuid();
 			let add = await args.dbConnection('token_table').insert(
 				{
-					admin_id: user[0].id,
+					user_id: user[0].id,
 					jtoken: user[0].jtoken,
 				}
 			);
@@ -245,5 +245,56 @@ export function userAuthRequest(args)
 		await args.dbConnection('webshop').delete().from('token_table').where({ user_id: req.body.id });
 		res.send(true);
 	});
+
+	args.app.post('/getUserData', async function(req,res)
+	{
+		let user = await args.dbConnection('webshop').select().from('users').where({id: req.body.id, deleted: 0});
+		res.send(user);
+	});
+
+	args.app.post('/getInvoiceData', async function(req,res)
+	{
+		let data = await args.dbConnection('webshop').select().from('invoices').where({user: req.body.user});
+		res.send(data);
+	});
+
+	args.app.post('/addInvoiceData', async function(req,res)
+	{
+		await args.dbConnection('invoices').insert(
+			{
+				user: req.body.user,
+				name: req.body.invoices.name,
+				inv_postcode: req.body.invoices.inv_postcode,
+				inv_city: req.body.invoices.inv_city,
+				inv_street: req.body.invoices.inv_street,
+				inv_house_num: req.body.invoices.inv_house_num,
+				ship_postcode: req.body.invoices.ship_postcode,
+				ship_city: req.body.invoices.ship_city,
+				ship_street: req.body.invoices.ship_street,
+				ship_house_num: req.body.invoices.ship_house_num
+			}
+		);
+
+		res.send(true);
+	});
+
+	args.app.post('/modifyInvoiceData', async function(req,res)
+	{
+		await args.dbConnection('invoices').where({ user : req.body.user }).update(
+			{
+				name: req.body.invoices.name,
+				inv_postcode: req.body.invoices.inv_postcode,
+				inv_city: req.body.invoices.inv_city,
+				inv_street: req.body.invoices.inv_street,
+				inv_house_num: req.body.invoices.inv_house_num,
+				ship_postcode: req.body.invoices.ship_postcode,
+				ship_city: req.body.invoices.ship_city,
+				ship_street: req.body.invoices.ship_street,
+				ship_house_num: req.body.invoices.ship_house_num
+			}
+		);
+
+		res.send(true);
+	})
 
 }

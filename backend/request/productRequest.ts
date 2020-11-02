@@ -1,3 +1,5 @@
+import * as consts from '../../common/consts/consts';
+
 export function productRequests(args)
 {
 	args.app.post('/addProduct', async function (req, res)
@@ -169,7 +171,7 @@ export function productRequests(args)
 			query += " AND category=" + req.body.category
 		}
 
-		if(req.body.filterDatas != undefined)
+		if (req.body.filterDatas != undefined)
 		{
 			for (let filterData of req.body.filterDatas)
 			{
@@ -193,5 +195,74 @@ export function productRequests(args)
 		let products = await args.dbConnection().select(args.dbConnection.raw(query));
 
 		res.send(products);
+	});
+
+	args.app.post('/addToCart', async function (req, res)
+	{
+		await args.dbConnection('orders').insert(
+			{
+				user: req.body.user,
+				product: req.body.product,
+				qty: req.body.qty,
+				status: consts.orderStatus.inCart
+			}
+		)
+
+		res.send(true);
+	});
+
+	args.app.post('/listCart', async function (req, res)
+	{
+		let query = "product.id as product_id,product.name as name, orders.qty as qty " +
+		"FROM product LEFT JOIN orders ON product.id=orders.product WHERE orders.status=1"
+		let cart = await args.dbConnection().select(args.dbConnection.raw(query));
+		res.send(cart);
+	})
+
+	args.app.post('/order', async function (req, res)
+	{
+		let orderGenerator = require('order-id')('mysecret');
+		let order_id = orderGenerator.generate();
+
+		console.log(req.body.orders)
+		for (let order of req.body.orders)
+		{
+			await args.dbConnection('orders').where(
+				{
+					user: req.body.user,
+					status: consts.orderStatus.inCart,
+					product: order.product_id
+				}).update({ order_id: order_id,status: consts.orderStatus.ordered });
+		}
+
+		res.send(true);
+	});
+
+	args.app.post('/listOrders', async function(req,res)
+	{
+		let query1 = 
+		"order_id, orders.user FROM orders "
+		
+		if(req.body.user_id) query1 += "WHERE orders.user = 1 "
+		
+		query1 += "GROUP BY order_id,orders.user"
+
+		let orders = await args.dbConnection().select(args.dbConnection.raw(query1));
+
+		let query2 = 
+		"* FROM product " +
+		"LEFT JOIN orders ON orders.product = product.id WHERE 1=1 " 
+
+		if(req.body.status != undefined)
+		{ query2 += "AND orders.status = " + req.body.status };
+		if(req.body.order_id != undefined)
+		{ query2 += "AND orders.order_id = '" + req.body.order_id + "'"};
+		if(req.body.user_id)
+		{ query2 += "AND orders.user = " + req.body.user_id }
+
+		let details = await args.dbConnection().select(args.dbConnection.raw(query2));
+
+		let result = {orders: orders, details: details}
+		res.send(result);
 	})
 }
