@@ -20,7 +20,7 @@ export class CartComponent implements OnInit
 	{
 		let user = await this.httpService.callFunction('checkUser', {jtoken: localStorage.getItem('JToken')});
 		this.user_id = user[0]['user_id'];  
-		this.orders = await this.httpService.callFunction('listCart',{user: this.user_id});
+		this.orders = await this.httpService.callFunction('listCart',{user: this.user_id, status: 1});
 	}
 
 	async order()
@@ -39,7 +39,6 @@ export class CartComponent implements OnInit
 	{
 		let result = await this.httpService.callFunction('listOrders',{user_id: this.user_id});
 		this.ordered = result.orders;
-		console.log(this.ordered);
 	}
 
 	async showOrderDetails(order_id)
@@ -52,4 +51,12 @@ export class CartComponent implements OnInit
 	ordered = [];
 	details = [];
 	user_id;
+	status = 
+	[
+		'Törölve',
+		'Kosárban',
+		'Megrendelve',
+		'Kiszállítva',
+		'Teljesítve'
+	]
 }

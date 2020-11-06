@@ -5,9 +5,16 @@
 
 <div *ngIf="orders.length == 0">
 	<button (click)="showOrders()">Mutasd az rendeléseimet</button>
-	<ul>
-		<li *ngFor="let order of ordered" (click)="showOrderDetails(order.order_id)">{{order.order_id}}</li>
-	</ul>
+	<table *ngIf="ordered.length > 0">
+		<tr>
+			<td>Rendelési szám</td>
+			<td>Státusz</td>
+		</tr>
+		<tr *ngFor="let order of ordered" (click)="showOrderDetails(order.order_id)">
+			<td>{{order.order_id}}</td>
+			<td>{{status[order.status]}}</td>
+		</tr>
+	</table>
 
 	<div class="container-between" *ngFor="let detail of details">
 		<span>

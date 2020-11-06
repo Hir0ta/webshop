@@ -1,6 +1,21 @@
+<div>
+	<div class="container-between">
+		Rendelési állapot:
+		<select [(ngModel)]="status" (ngModelChange)="refresh()">
+			<option value="2">Megrendelve</option>
+			<option value="3">Kiszállítva</option>
+			<option value="4">Teljesítve</option>
+		</select>
+	</div>
+</div>
+
 <ul>
 	<ng-container *ngFor="let order of orders">
-		<li (click)="showDetail(order.order_id)">{{order.order_id}}</li>
+		<li>
+			<span (click)="showDetail(order.order_id)">{{order.order_id}}</span>
+			<button *ngIf="status == 2" (click)="sended(order.order_id)">Kiküldve</button>
+			<button *ngIf="status == 3" (click)="finished(order.order_id)">Teljesítve</button>
+		</li>
 	</ng-container>
 </ul>
 
@@ -37,7 +52,7 @@
 		</div>
 		<div>
 			<div>Házszám:</div>
-			<div>{{invoiceData.inv_house_num}}</div>>
+			<div>{{invoiceData.inv_house_num}}</div>
 		</div>
 	</div>
 	<div>
